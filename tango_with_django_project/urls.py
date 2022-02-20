@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 from django.urls import path, include
 
 from rango import views
-
+LOGIN_URL = 'rango:login',
 urlpatterns = [
     path('', views.index, name='index'),
     path('rango/', include("rango.urls")),
