@@ -62,6 +62,8 @@ def show_category(request, category_name_slug):
 
 
 def add_category(request):
+    if request.user.is_anonymous:
+        return redirect(reverse('rango:login'))
     form = CategoryForm()
 
     if request.method == 'POST':
@@ -75,6 +77,8 @@ def add_category(request):
 
 
 def add_page(request, category_name_slug):
+    if request.user.is_anonymous:
+        return redirect(reverse('rango:login'))
     try:
         category = Category.objects.get(slug=category_name_slug)
     except Category.DoesNotExist:
@@ -102,6 +106,7 @@ def add_page(request, category_name_slug):
     return render(request, 'rango/add_page.html', context=context_dict)
 
 def register(request):
+
     registered = False
     if request.method == 'POST':
         user_form = UserForm(request.POST)
@@ -114,8 +119,8 @@ def register(request):
             profile.user = user
             if 'picture' in request.FILES:
                 profile.picture = request.FILES['picture']
-                profile.save()
-                registered = True
+            profile.save()
+            registered = True
         else:
                 print(user_form.errors, profile_form.errors)
     else:
@@ -156,7 +161,9 @@ def some_view(request):
 
 @login_required
 def restricted(request):
-    return render(request,'rango/restricted.html')
+    if request.user.is_anonymous:
+        return redirect(reverse('rango:login'))
+    return render(request, 'rango/restricted.html', context={})
 
 
 @login_required
