@@ -23,7 +23,8 @@
 			{% get_category_list category %}
 			{% endblock %}
 		<div>
-
+		<hr />
+			<div>
 			<ul>
 			{% if user.is_authenticated %}
 				<li><a href="{% url 'rango:restricted' %}">Restricted Page</a></li>
